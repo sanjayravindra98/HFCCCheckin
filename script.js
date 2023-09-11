@@ -1,9 +1,4 @@
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
+// Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyCMjFNxcITUhsQVB_4rVFMQsKdqMPQ425w",
     authDomain: "hfcccheckin.firebaseapp.com",
@@ -13,5 +8,44 @@
     appId: "1:82135060851:web:9f4d8a51910fe33163b506"
   };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Get a reference to the Firebase Authentication object
+const auth = firebase.auth();
+
+// Get references to the password input, login button, and login message elements
+const passwordInput = document.getElementById("passwordInput");
+const loginButton = document.getElementById("loginButton");
+const loginMessage = document.getElementById("loginMessage");
+
+// Function to authenticate the user with Firebase using the entered password
+function authenticateUserWithFirebase(password) {
+    auth.signInWithEmailAndPassword("dummy@example.com", password)
+        .then((userCredential) => {
+            // User is authenticated
+            const user = userCredential.user;
+            console.log("Authentication successful", user);
+            // Redirect the user to the protected content
+            window.location.href = "./checkin.html";
+        })
+        .catch((error) => {
+            // Handle authentication errors
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error("Authentication failed:", errorCode, errorMessage);
+            // Display an error message to the user
+            loginMessage.textContent = "Incorrect password. Please try again.";
+            // Clear the password input field
+            passwordInput.value = "";
+        });
+}
+
+// Add a click event listener to the login button
+loginButton.addEventListener("click", function() {
+    // Get the password entered by the user
+    const enteredPassword = passwordInput.value;
+
+    // Authenticate the user with Firebase using the entered password
+    authenticateUserWithFirebase(enteredPassword);
+});
