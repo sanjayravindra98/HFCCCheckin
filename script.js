@@ -3,9 +3,9 @@ const redirectButton = document.getElementById("redirectButton");
 
 // Add a click event listener to the button
 redirectButton.addEventListener("click", function() {
-    // Specify the URL you want to redirect to
-    const redirectUrl = "https://www.holyfamilycc.com"; // Replace with your desired URL
+    // Specify the relative path to the target HTML file
+    const targetPage = "./index.html"; // Replace with the actual filename
 
-    // Redirect the user to the specified URL
-    window.location.href = redirectUrl;
+    // Redirect the user to the target HTML page
+    window.location.href = targetPage;
 });
