@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ignite Check-In</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #8CB2D9;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .group {
+            background-color: #f0f0f0;
+            margin: 15px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px; /* Rounded corners */
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .group h2 {
+            margin: 10px 0;
+        }
+
+        .student-checkbox {
+            display: none;
+        }
+
+        .student-button {
+            margin: 5px 0;
+            background-color: #8CB2D9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            border-radius: 5px;
+            max-width: 90%;
+        }
+
+        .student-checkbox:checked + .student-button {
+            background-color: #5dc278;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .filter-button {
+            background-color: #8CB2D9;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            cursor: pointer;
+            border-radius: 5px;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .filter-button:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ignite Check-In</h1>
+    </header>
+    <div class="container">
+        <div class="filter-buttons">
+        </div>
+        
+        <div class="group">
+            <h2>8C</h2>
+            <input type="checkbox" class="student-checkbox" id="student1">
+            <label class="student-button" for="student1">Student 1</label>
+        </div>
+
+        <div class="group">
+            <h2>8D</h2>
+            <input type="checkbox" class="student-checkbox" id="student2">
+            <label class="student-button" for="student2">Student 2</label>
+        </div>
+
+        <div class="group">
+            <h2>8E</h2>
+            <input type="checkbox" class="student-checkbox" id="student3">
+            <label class="student-button" for="student3">Student 3</label>
+        </div>
+
+        <div class="group">
+            <h2>8F</h2>
+            <input type="checkbox" class="student-checkbox" id="student4">
+            <label class="student-button" for="student4">Student 4</label>
+        </div>
+
+        <div class="group">
+            <h2>8G</h2>
+            <input type="checkbox" class="student-checkbox" id="student5">
+            <label class="student-button" for="student5">Student 5</label>
+        </div>
+    </div>
+</body>
+</html>
