@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ignite Check-In</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #8CB2D9;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .group {
+            background-color: #f0f0f0;
+            margin: 15px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px; /* Rounded corners */
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .group h2 {
+            margin: 10px 0;
+        }
+
+        .student-checkbox {
+            display: none;
+        }
+
+        .student-button {
+            margin: 5px 0;
+            background-color: #8CB2D9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            border-radius: 5px;
+            max-width: 90%;
+        }
+
+        .student-checkbox:checked + .student-button {
+            background-color: #5dc278;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .filter-button {
+            background-color: #8CB2D9;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            cursor: pointer;
+            border-radius: 5px;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .filter-button:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ignite Check-In</h1>
+    </header>
+    <div class="container">
+        <div class="filter-buttons">
+        </div>
+        
+        <div class="group">
+            <h2>8C</h2>
+            <input type="checkbox" class="student-checkbox" id="student1">
+            <label class="student-button" for="student1">Chloe Boduch</label>
+            <input type="checkbox" class="student-checkbox" id="student2">
+            <label class="student-button" for="student2">Daisy Caparos</label>
+            <input type="checkbox" class="student-checkbox" id="student3">
+            <label class="student-button" for="student3">Luca Colangeli</label>
+            <input type="checkbox" class="student-checkbox" id="student4">
+            <label class="student-button" for="student4">Santi Ferreira</label>
+            <input type="checkbox" class="student-checkbox" id="student5">
+            <label class="student-button" for="student5">Micah Foote</label>
+            <input type="checkbox" class="student-checkbox" id="student6">
+            <label class="student-button" for="student6">Avery Hines</label>
+            <input type="checkbox" class="student-checkbox" id="student7">
+            <label class="student-button" for="student7">Connor Joyce</label>
+            <input type="checkbox" class="student-checkbox" id="student8">
+            <label class="student-button" for="student8">AJ Lippe</label>
+            <input type="checkbox" class="student-checkbox" id="student9">
+            <label class="student-button" for="student9">Shea Saliba</label>
+            <input type="checkbox" class="student-checkbox" id="student10">
+            <label class="student-button" for="student10">Oliver VanDeVoorde</label>
+            <input type="checkbox" class="student-checkbox" id="student11">
+            <label class="student-button" for="student11">Reece Wright</label>
+        </div>
+
+        <div class="group">
+            <h2>8D</h2>
+            <input type="checkbox" class="student-checkbox" id="student12">
+            <label class="student-button" for="student12">William Caldwell</label>
+            <input type="checkbox" class="student-checkbox" id="student13">
+            <label class="student-button" for="student13">Natalia Digby</label>
+            <input type="checkbox" class="student-checkbox" id="student14">
+            <label class="student-button" for="student14">Kate Dolata</label>
+            <input type="checkbox" class="student-checkbox" id="student15">
+            <label class="student-button" for="student15">Gemma Estrada</label>
+            <input type="checkbox" class="student-checkbox" id="student16">
+            <label class="student-button" for="student16">Kendall Goricki</label>
+            <input type="checkbox" class="student-checkbox" id="student17">
+            <label class="student-button" for="student17">Sofia Rosas</label>
+            <input type="checkbox" class="student-checkbox" id="student18">
+            <label class="student-button" for="student18">Mady Sanders</label>
+            <input type="checkbox" class="student-checkbox" id="student19">
+            <label class="student-button" for="student19">Sadie Sheehan</label>
+            <input type="checkbox" class="student-checkbox" id="student20">
+            <label class="student-button" for="student20">Leo Tamboli</label>
+            <input type="checkbox" class="student-checkbox" id="student21">
+            <label class="student-button" for="student21">Gavin Thornburg</label>
+            <input type="checkbox" class="student-checkbox" id="student22">
+            <label class="student-button" for="student22">Charlie Waller</label>
+        </div>
+
+        <div class="group">
+            <h2>8E</h2>
+            <input type="checkbox" class="student-checkbox" id="student23">
+            <label class="student-button" for="student23">Hadley Brunner</label>
+            <input type="checkbox" class="student-checkbox" id="student24">
+            <label class="student-button" for="student24">Will George</label>
+            <input type="checkbox" class="student-checkbox" id="student25">
+            <label class="student-button" for="student25">Hayden Gilmore</label>
+            <input type="checkbox" class="student-checkbox" id="student26">
+            <label class="student-button" for="student26">Braden Jacobus</label>
+            <input type="checkbox" class="student-checkbox" id="student27">
+            <label class="student-button" for="student27">Harper Kunath</label>
+            <input type="checkbox" class="student-checkbox" id="student28">
+            <label class="student-button" for="student28">Jack Henry Price</label>
+            <input type="checkbox" class="student-checkbox" id="student29">
+            <label class="student-button" for="student29">Arden Ramage</label>
+            <input type="checkbox" class="student-checkbox" id="student30">
+            <label class="student-button" for="student30">Reagan Rotnofsky</label>
+            <input type="checkbox" class="student-checkbox" id="student31">
+            <label class="student-button" for="student31">Owen Sanders</label>
+            <input type="checkbox" class="student-checkbox" id="student32">
+            <label class="student-button" for="student32">LA Seestedt</label>
+            <input type="checkbox" class="student-checkbox" id="student33">
+            <label class="student-button" for="student33">Grant Yeadon</label>
+        </div>
+
+        <div class="group">
+            <h2>8F</h2>
+            <input type="checkbox" class="student-checkbox" id="student34">
+            <label class="student-button" for="student34">Madeline Baker</label>
+            <input type="checkbox" class="student-checkbox" id="student35">
+            <label class="student-button" for="student35">Claire Birdwell</label>
+            <input type="checkbox" class="student-checkbox" id="student36">
+            <label class="student-button" for="student36">Will Doetzer</label>
+            <input type="checkbox" class="student-checkbox" id="student37">
+            <label class="student-button" for="student37">Asher Eskew</label>
+            <input type="checkbox" class="student-checkbox" id="student38">
+            <label class="student-button" for="student38">Juliet Mortara</label>
+            <input type="checkbox" class="student-checkbox" id="student39">
+            <label class="student-button" for="student39">Ali Otto</label>
+            <input type="checkbox" class="student-checkbox" id="student40">
+            <label class="student-button" for="student40">Xander Seyfried</label>
+            <input type="checkbox" class="student-checkbox" id="student41">
+            <label class="student-button" for="student41">Caleb Stoner</label>
+            <input type="checkbox" class="student-checkbox" id="student42">
+            <label class="student-button" for="student42">Adeline Webb</label>
+            <input type="checkbox" class="student-checkbox" id="student43">
+            <label class="student-button" for="student43">Dylan West</label>
+            <input type="checkbox" class="student-checkbox" id="student44">
+            <label class="student-button" for="student44">Ryland Wright</label>
+        </div>
+
+        <div class="group">
+            <h2>8G</h2>
+            <input type="checkbox" class="student-checkbox" id="student45">
+            <label class="student-button" for="student45">Caroline Andrews</label>
+            <input type="checkbox" class="student-checkbox" id="student46">
+            <label class="student-button" for="student46">Cannon Andrews</label>
+            <input type="checkbox" class="student-checkbox" id="student47">
+            <label class="student-button" for="student47">Claire Ascano</label>
+            <input type="checkbox" class="student-checkbox" id="student48">
+            <label class="student-button" for="student48">Stella Coller</label>
+            <input type="checkbox" class="student-checkbox" id="student49">
+            <label class="student-button" for="student49">Reagan Diehl</label>
+            <input type="checkbox" class="student-checkbox" id="student50">
+            <label class="student-button" for="student50">Frank Durst</label>
+            <input type="checkbox" class="student-checkbox" id="student51">
+            <label class="student-button" for="student51">Easton Foley</label>
+            <input type="checkbox" class="student-checkbox" id="student52">
+            <label class="student-button" for="student52">Nate Lehmann</label>
+            <input type="checkbox" class="student-checkbox" id="student53">
+            <label class="student-button" for="student53">Charlie Milhizer</label>
+            <input type="checkbox" class="student-checkbox" id="student54">
+            <label class="student-button" for="student54">Emma Perdzock</label>
+            <input type="checkbox" class="student-checkbox" id="student55">
+            <label class="student-button" for="student55">Christopher Price</label>
+        </div>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>
