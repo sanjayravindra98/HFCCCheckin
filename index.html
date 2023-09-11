@@ -8,38 +8,18 @@
 <body>
     <h1>Login Page</h1>
     <p>Enter the password to access the site:</p>
-    
-    <!-- Password input field -->
+
+    <!-- Password input field with an ID for easier selection -->
     <input type="password" id="passwordInput">
     <button id="loginButton">Login</button>
     <p id="loginMessage"></p>
-    <script src="./script.js"></script>
-    <script>
-        // Get references to the password input, login button, and login message elements
-        const passwordInput = document.getElementById("passwordInput");
-        const loginButton = document.getElementById("loginButton");
-        const loginMessage = document.getElementById("loginMessage");
 
-        // Define the correct password (replace with your actual password)
-        const correctPassword = "abc";
+    <!-- Include Firebase SDK and Firebase Configuration -->
+    <script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js"></script>
+    <script src="firebase-config.js"></script> <!-- Replace with your Firebase configuration file -->
 
-        // Add a click event listener to the login button
-        loginButton.addEventListener("click", function() {
-            // Get the password entered by the user
-            const enteredPassword = passwordInput.value;
-
-            // Check if the entered password is correct
-            if (enteredPassword === correctPassword) {
-                // Redirect to the checkin.html page
-                window.location.href = "./checkin.html";
-            } else {
-                // Display an error message
-                loginMessage.textContent = "Incorrect password. Please try again.";
-                // Clear the password input field
-                passwordInput.value = "";
-            }
-        });
-    </script>
+    <!-- Include the script.js file -->
+    <script src="script.js"></script>
 </body>
 </html>
-
