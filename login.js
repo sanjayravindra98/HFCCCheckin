@@ -27,7 +27,7 @@ function authenticateUserWithFirebase(password) {
             const user = userCredential.user;
             console.log("Authentication successful", user);
             // Redirect the user to the protected content
-            window.location.href = "./checkin.html";
+            window.location.href = "./sessionselector.html";
         })
         .catch((error) => {
             // Handle authentication errors
