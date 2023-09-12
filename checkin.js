@@ -26,33 +26,39 @@ auth.onAuthStateChanged((user) => {
 // Reference to the Firestore database
 const db = firebase.firestore();
 
-// Function to fetch and populate students in the specified group div
+// Function to populate students in the specified group div
 function populateStudentsInGroup(group) {
-  const groupDiv = document.querySelector(`.group h2:contains(${group})`).parentElement;
+  const groupDivs = document.querySelectorAll('.group');
 
-  // Fetch students from Firestore for the specified group
-  db.collection('students')
-    .where('group', '==', group)
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        const studentData = doc.data();
-        const studentButton = document.createElement('button');
-        studentButton.classList.add('student-button');
-        studentButton.textContent = studentData.name;
+  groupDivs.forEach((groupDiv) => {
+    const groupName = groupDiv.querySelector('h2').textContent;
 
-        // Add click event handler for student button
-        studentButton.addEventListener('click', () => {
-          // Handle the click event for the student button here
-          console.log(`Clicked on ${studentData.name}`);
+    if (groupName === group) {
+      // Fetch students from Firestore for the specified group
+      db.collection('students')
+        .where('group', '==', group)
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const studentData = doc.data();
+            const studentButton = document.createElement('button');
+            studentButton.classList.add('student-button');
+            studentButton.textContent = studentData.name;
+
+            // Add click event handler for student button
+            studentButton.addEventListener('click', () => {
+              // Handle the click event for the student button here
+              console.log(`Clicked on ${studentData.name}`);
+            });
+
+            groupDiv.appendChild(studentButton);
+          });
+        })
+        .catch((error) => {
+          console.error('Error fetching students:', error);
         });
-
-        groupDiv.appendChild(studentButton);
-      });
-    })
-    .catch((error) => {
-      console.error('Error fetching students:', error);
-    });
+    }
+  });
 }
 
 // Call the function to populate students in each group div
