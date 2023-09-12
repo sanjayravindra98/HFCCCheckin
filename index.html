@@ -28,6 +28,63 @@
             align-items: center;
             padding: 20px;
         }
+
+        .group {
+            background-color: #f0f0f0;
+            margin: 15px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px; /* Rounded corners */
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .group h2 {
+            margin: 10px 0;
+        }
+
+        .student-checkbox {
+            display: none;
+        }
+
+        .student-button {
+            margin: 5px 0;
+            background-color: #8CB2D9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            border-radius: 5px;
+            max-width: 90%;
+        }
+
+        .student-checkbox:checked + .student-button {
+            background-color: #5dc278;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .filter-button {
+            background-color: #8CB2D9;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            cursor: pointer;
+            border-radius: 5px;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .filter-button:last-child {
+            margin-right: 0;
+        }
     </style>
 </head>
 <body>
