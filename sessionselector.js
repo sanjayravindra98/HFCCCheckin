@@ -58,6 +58,32 @@ displaySessions();
 // Reference to the "Add New Session" button
 var startSessionBtn = document.getElementById("start-session-btn");
 
+// Function to check if a session for the current date exists
+function checkSessionExists() {
+    var currentDate = new Date();
+    var mm = String(currentDate.getMonth() + 1).padStart(2, "0");
+    var dd = String(currentDate.getDate()).padStart(2, "0");
+    var yy = String(currentDate.getFullYear()).slice(-2);
+    var formattedDate = mm + "/" + dd + "/" + yy;
+
+    // Check if a session with the current date exists in Firestore
+    db.collection("sessions")
+        .where("date", "==", formattedDate)
+        .get()
+        .then(function (querySnapshot) {
+            if (querySnapshot.size > 0) {
+                // A session for the current date exists, hide the button
+                startSessionBtn.style.display = "none";
+            } else {
+                // No session for the current date, show the button
+                startSessionBtn.style.display = "block";
+            }
+        })
+        .catch(function (error) {
+            console.error("Error checking session existence: ", error);
+        });
+}
+
 // Function to add a new session
 function addNewSession() {
     var currentDate = new Date();
@@ -81,4 +107,7 @@ function addNewSession() {
 
 // Add a click event listener to the "Add New Session" button
 startSessionBtn.addEventListener("click", addNewSession);
+
+// Check if a session for the current date exists
+checkSessionExists();
 
