@@ -31,7 +31,7 @@ function populateStudentsInGroup(group) {
   const groupDivs = document.querySelectorAll('.group');
 
   groupDivs.forEach((groupDiv) => {
-    const groupName = groupDiv.querySelector('h2').textContent;
+    const groupName = groupDiv.getAttribute('data-group');
 
     if (groupName === group) {
       // Fetch students from Firestore for the specified group
