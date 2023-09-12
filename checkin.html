@@ -63,13 +63,16 @@
             width: 80%;
             max-width: 400px;
             text-align: center;
-            position: relative; /* Add this to position the buttons */
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Stack buttons vertically */
+            align-items: center; /* Center-align items horizontally */
+            position: relative;
         }
         
         .group h2 {
             margin: 5px 0; /* Reduce the space between the group name and the top of the box */
         }
-        
+
         .student-button {
             margin: 5px 0; /* Add some vertical margin between buttons */
             margin-bottom: 5px;
@@ -82,7 +85,6 @@
             width: 100%;
             border-radius: 5px;
             max-width: 90%;
-            margin: 0 auto; /* Center-align the buttons horizontally */
         }
         
         .student-checkbox:checked + .student-button {
