@@ -26,6 +26,7 @@ auth.onAuthStateChanged((user) => {
 // Reference to the Firestore database
 const db = firebase.firestore();
 
+
 // Function to populate students in the specified group div
 function populateStudentsInGroup(group) {
   const groupDivs = document.querySelectorAll('.group');
