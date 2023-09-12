@@ -28,23 +28,23 @@ var db = firebase.firestore();
 
 // Retrieve students from Firestore
 db.collection("students").get()
-.then(function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
-        // Get the student data
-        var studentData = doc.data();
+  .then(function (querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      // Get the student data
+      var studentData = doc.data();
 
-        // Create and populate an element on your webpage with the student data
-        var studentElement = document.createElement("label");
-        studentElement.className = "student-button";
-        studentElement.textContent = studentData.name;
+      // Create and populate an element on your webpage with the student data
+      var studentElement = document.createElement("label");
+      studentElement.className = "student-button";
+      studentElement.textContent = studentData.name;
 
-        // Append the element to the appropriate group container
-        var groupContainer = document.querySelector('h2:contains("' + studentData.group + '")');
-        if (groupContainer) {
-            groupContainer.parentElement.appendChild(studentElement);
-        }
+      // Append the element to the appropriate group container
+      var groupContainer = document.querySelector('h2:contains("' + studentData.group + '")');
+      if (groupContainer) {
+        groupContainer.parentElement.appendChild(studentElement);
+      }
     });
-})
-.catch(function(error) {
+  })
+  .catch(function (error) {
     console.error("Error retrieving students: ", error);
-});
+  });
