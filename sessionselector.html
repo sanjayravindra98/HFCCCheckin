@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Holy Family Check-In</title>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
+        /* Reset default margin and padding */
+        body, h1, ul, li, button {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            text-align: center; /* Center content horizontally */
         }
 
+        /* Styling for header */
         header {
             background-color: #8CB2D9;
             color: white;
@@ -33,11 +32,31 @@
             padding: 20px;
         }
 
+        /* Styling for the "Start New Session" button */
+        #start-session-btn {
+            background-color: #8CB2D9;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        #start-session-btn:hover {
+            background-color: #5dc278;
+        }
+
+        /* Styling for the "Previous Sessions" heading */
+        #previous-sessions-heading {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
         /* Styling for the session list */
         ul#session-list {
             list-style-type: none;
             padding: 0;
-            margin-bottom: 20px;
         }
 
         ul#session-list li {
@@ -47,20 +66,12 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             text-align: center;
+            cursor: pointer;
         }
 
-        /* Styling for the "Add New Session" button */
-        #add-session-btn {
+        ul#session-list li:hover {
             background-color: #8CB2D9;
             color: white;
-            border: none;
-            padding: 15px 40px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        #add-session-btn:hover {
-            background-color: #5dc278;
         }
 
         /* Responsive styles */
@@ -73,7 +84,7 @@
                 padding: 8px;
             }
 
-            #add-session-btn {
+            #start-session-btn {
                 padding: 12px 30px;
             }
         }
@@ -81,17 +92,15 @@
 </head>
 <body>
     <header>
-        <h1>Holy Family Check-In</h1>
+        <h1>Holy Family Check-In</h1> <!-- Updated header -->
     </header>
     <div class="container">
+        <button id="start-session-btn">Start New Session</button>
+        <h2 id="previous-sessions-heading">Previous Sessions</h2>
         <ul id="session-list">
-            <!-- Sessions will be added dynamically -->
+            <!-- Sessions will be added dynamically as buttons -->
         </ul>
-        <button id="add-session-btn">Add New Session</button>
     </div>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="./sessionselector.js"></script>
+    <script src="sessionselector.js"></script>
 </body>
 </html>
