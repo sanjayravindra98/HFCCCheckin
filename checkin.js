@@ -40,16 +40,28 @@ function populateStudentsInGroup(group) {
         .where('group', '==', group)
         .get()
         .then((querySnapshot) => {
+          const students = [];
+
           querySnapshot.forEach((doc) => {
             const studentData = doc.data();
+            students.push({
+              name: studentData.name,
+              lastName: studentData.name.split(' ').pop(), // Get last name
+            });
+          });
+
+          // Sort students alphabetically by last name
+          students.sort((a, b) => a.lastName.localeCompare(b.lastName));
+
+          students.forEach((student) => {
             const studentButton = document.createElement('button');
             studentButton.classList.add('student-button');
-            studentButton.textContent = studentData.name;
+            studentButton.textContent = student.name;
 
             // Add click event handler for student button
             studentButton.addEventListener('click', () => {
               // Handle the click event for the student button here
-              console.log(`Clicked on ${studentData.name}`);
+              console.log(`Clicked on ${student.name}`);
             });
 
             groupDiv.appendChild(studentButton);
