@@ -26,6 +26,12 @@
         }
 
         /* Style your form elements here */
+        .form-container {
+            display: inline-block;
+            text-align: left;
+            padding: 20px;
+        }
+
         p {
             margin: 10px 0;
         }
@@ -54,12 +60,18 @@
     <header>
         <h1>Ignite Check-In</h1>
     </header>
-    <p>Enter the password:</p>
 
-    <!-- Password input field with an ID for easier selection -->
-    <input type="text" id="passwordInput">
-    <button id="loginButton">Login</button>
-    <p id="loginMessage"></p>
+    <!-- Use a container to group form elements -->
+    <div class="form-container">
+        <p>Enter the password:</p>
+    
+        <!-- Password input field with an ID for easier selection -->
+        <input type="text" id="passwordInput">
+        
+        <!-- Move the login button under the text entry box -->
+        <button id="loginButton">Login</button>
+        <p id="loginMessage"></p>
+    </div>
 
     <!-- Include Firebase SDK and Firebase Configuration -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
