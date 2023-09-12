@@ -34,7 +34,7 @@
 
         /* Styling for the "Start New Session" button */
         #start-session-btn {
-            background-color: #8CB2D9;
+            background-color: #5dc278; /* Blue by default */
             color: white;
             border: none;
             padding: 15px 40px;
@@ -42,9 +42,27 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
-
+        
         #start-session-btn:hover {
-            background-color: #5dc278;
+            background-color: #8CB2D9; /* White on hover */
+            color: white;
+        }
+        
+        /* Styling for the session list */
+        ul#session-list li {
+            background-color: #8CB2D9; /* Blue by default */
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            color: white; /* White text by default */
+        }
+        
+        ul#session-list li:hover {
+            background-color: white; /* White on hover */
+            color: #8CB2D9; /* Blue text on hover */
         }
 
         /* Styling for the "Previous Sessions" heading */
@@ -57,21 +75,6 @@
         ul#session-list {
             list-style-type: none;
             padding: 0;
-        }
-
-        ul#session-list li {
-            background-color: #f0f0f0;
-            margin: 5px 0;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        ul#session-list li:hover {
-            background-color: #8CB2D9;
-            color: white;
         }
 
         /* Responsive styles */
