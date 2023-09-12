@@ -24,3 +24,27 @@ auth.onAuthStateChanged((user) => {
     }
 });
 
+var db = firebase.firestore();
+
+// Retrieve students from Firestore by group
+db.collection("students").where("group", "==", "8C").get()
+.then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        // Get the student data
+        var studentData = doc.data();
+
+        // Create and populate an element on your webpage with the student data
+        var studentElement = document.createElement("div");
+        studentElement.textContent = studentData.name;
+
+        // Append the element to the appropriate group container
+        var groupContainer = document.getElementById(studentData.group);
+        if (groupContainer) {
+            groupContainer.appendChild(studentElement);
+        }
+    });
+})
+.catch(function(error) {
+    console.error("Error retrieving students: ", error);
+});
+
