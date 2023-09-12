@@ -1,12 +1,12 @@
-// Initialize Firebase with your configuration
-var firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
+// Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCMjFNxcITUhsQVB_4rVFMQsKdqMPQ425w",
+    authDomain: "hfcccheckin.firebaseapp.com",
+    projectId: "hfcccheckin",
+    storageBucket: "hfcccheckin.appspot.com",
+    messagingSenderId: "82135060851",
+    appId: "1:82135060851:web:9f4d8a51910fe33163b506"
+  };
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
