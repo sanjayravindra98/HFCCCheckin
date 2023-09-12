@@ -8,7 +8,6 @@
     appId: "1:82135060851:web:9f4d8a51910fe33163b506"
   };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 // Get a reference to the Firebase Authentication object
@@ -24,27 +23,41 @@ auth.onAuthStateChanged((user) => {
     }
 });
 
-var db = firebase.firestore();
+// Reference to the Firestore database
+const db = firebase.firestore();
 
-// Retrieve students from Firestore
-db.collection("students").get()
-  .then(function (querySnapshot) {
-    querySnapshot.forEach(function (doc) {
-      // Get the student data
-      var studentData = doc.data();
+// Function to fetch and populate students in the specified group div
+function populateStudentsInGroup(group) {
+  const groupDiv = document.querySelector(`.group h2:contains(${group})`).parentElement;
 
-      // Create and populate an element on your webpage with the student data
-      var studentElement = document.createElement("label");
-      studentElement.className = "student-button";
-      studentElement.textContent = studentData.name;
+  // Fetch students from Firestore for the specified group
+  db.collection('students')
+    .where('group', '==', group)
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const studentData = doc.data();
+        const studentButton = document.createElement('button');
+        studentButton.classList.add('student-button');
+        studentButton.textContent = studentData.name;
 
-      // Append the element to the appropriate group container
-      var groupContainer = document.querySelector('h2:contains("' + studentData.group + '")');
-      if (groupContainer) {
-        groupContainer.parentElement.appendChild(studentElement);
-      }
+        // Add click event handler for student button
+        studentButton.addEventListener('click', () => {
+          // Handle the click event for the student button here
+          console.log(`Clicked on ${studentData.name}`);
+        });
+
+        groupDiv.appendChild(studentButton);
+      });
+    })
+    .catch((error) => {
+      console.error('Error fetching students:', error);
     });
-  })
-  .catch(function (error) {
-    console.error("Error retrieving students: ", error);
-  });
+}
+
+// Call the function to populate students in each group div
+populateStudentsInGroup('8C');
+populateStudentsInGroup('8D');
+populateStudentsInGroup('8E');
+populateStudentsInGroup('8F');
+populateStudentsInGroup('8G');
