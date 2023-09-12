@@ -8,6 +8,10 @@
     ],
     "rewrites": [
       {
+        "source": "/sessionselector",
+        "function": "requireAuth"
+      },
+      {
         "source": "/checkin",
         "function": "requireAuth"
       },
