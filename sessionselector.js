@@ -56,7 +56,7 @@ function displaySessions() {
 displaySessions();
 
 // Reference to the "Add New Session" button
-var addSessionBtn = document.getElementById("add-session-btn");
+var startSessionBtn = document.getElementById("start-session-btn");
 
 // Function to add a new session
 function addNewSession() {
@@ -80,5 +80,5 @@ function addNewSession() {
 }
 
 // Add a click event listener to the "Add New Session" button
-addSessionBtn.addEventListener("click", addNewSession);
+startSessionBtn.addEventListener("click", addNewSession);
 
