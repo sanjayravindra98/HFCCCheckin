@@ -98,6 +98,7 @@ function addNewSession() {
     })
     .then(function() {
         console.log("New session added successfully");
+        checkSessionExists();
         displaySessions(); // Update the displayed sessions
     })
     .catch(function(error) {
