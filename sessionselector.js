@@ -133,8 +133,8 @@ function checkSessionExists() {
         });
 }
 
-// Function to add a new session
-function addNewSession() {
+// Function to add a new session and redirect to the checkin page
+function addNewSessionAndRedirect() {
     var currentDate = new Date();
     var mm = String(currentDate.getMonth() + 1).padStart(2, "0");
     var dd = String(currentDate.getDate()).padStart(2, "0");
@@ -147,16 +147,20 @@ function addNewSession() {
     })
     .then(function() {
         console.log("New session added successfully");
-        checkSessionExists();
-        displaySessions(); // Update the displayed sessions
+
+        // Store the newly added date in sessionStorage
+        sessionStorage.setItem('clickedDate', formattedDate);
+
+        // Redirect to the "./checkin" page
+        window.location.href = './checkin.html'; // Update the URL as needed
     })
     .catch(function(error) {
         console.error("Error adding new session: ", error);
     });
 }
 
-// Add a click event listener to the "Add New Session" button
-startSessionBtn.addEventListener("click", addNewSession);
+// Add a click event listener to the "Start New Session" button
+startSessionBtn.addEventListener("click", addNewSessionAndRedirect);
 
 // Check if a session for the current date exists
 checkSessionExists();
