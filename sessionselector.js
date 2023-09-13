@@ -79,7 +79,7 @@ function handleSessionClick(event) {
     var clickedDate = event.target.textContent;
 
     // Store the clicked date in sessionStorage
-    sessionStorage.setItem('clickedDate', clickedDate);
+    sessionStorage.setItem('sessionDate', clickedDate);
 
     // Redirect to the "./checkin" page
     window.location.href = './checkin.html'; // Update the URL as needed
@@ -152,7 +152,7 @@ function addNewSessionAndRedirect() {
         console.log("New session added successfully");
 
         // Store the newly added date in sessionStorage
-        sessionStorage.setItem('clickedDate', formattedDate);
+        sessionStorage.setItem('sessionDate', formattedDate);
         console.log(formattedDate);
 
         // Redirect to the "./checkin" page
