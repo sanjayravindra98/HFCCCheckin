@@ -140,23 +140,28 @@ function handleUndoButtonClick() {
         if (!querySnapshot.empty) {
           const sessionDoc = querySnapshot.docs[0];
           const studentsSubcollectionRef = sessionDoc.ref.collection('students');
+
+          // Iterate through selected students and update their "present" status
           selectedStudents.forEach((studentData) => {
-            if (studentData.present) {
-              studentsSubcollectionRef
-                .where('name', '==', studentData.name)
-                .get()
-                .then((querySnapshot) => {
-                  querySnapshot.forEach((doc) => {
-                    doc.ref.update({ present: false });
-                  });
-                })
-                .catch((error) => {
-                  console.error('Error marking student as not present:', error);
+            studentsSubcollectionRef
+              .where('name', '==', studentData.name)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  doc.ref.update({ present: false })
+                    .then(() => {
+                      // Refresh the page after marking students as not present
+                      location.reload();
+                    })
+                    .catch((error) => {
+                      console.error('Error marking student as not present:', error);
+                    });
                 });
-            }
+              })
+              .catch((error) => {
+                console.error('Error marking student as not present:', error);
+              });
           });
-          // Refresh the page after marking students as not present
-          location.reload();
         }
       })
       .catch((error) => {
@@ -164,6 +169,7 @@ function handleUndoButtonClick() {
       });
   }
 }
+
 
 // Function to handle the click event for the "Confirm" button
 function handleConfirmButtonClick() {
@@ -177,21 +183,28 @@ function handleConfirmButtonClick() {
         if (!querySnapshot.empty) {
           const sessionDoc = querySnapshot.docs[0];
           const studentsSubcollectionRef = sessionDoc.ref.collection('students');
+
+          // Iterate through selected students and update their "present" status
           selectedStudents.forEach((studentData) => {
             studentsSubcollectionRef
               .where('name', '==', studentData.name)
               .get()
               .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                  doc.ref.update({ present: true });
+                  doc.ref.update({ present: true })
+                    .then(() => {
+                      // Refresh the page after marking students as present
+                      location.reload();
+                    })
+                    .catch((error) => {
+                      console.error('Error marking student as present:', error);
+                    });
                 });
               })
               .catch((error) => {
                 console.error('Error marking student as present:', error);
               });
           });
-          // Refresh the page after marking students as present
-          location.reload();
         }
       })
       .catch((error) => {
@@ -199,6 +212,7 @@ function handleConfirmButtonClick() {
       });
   }
 }
+
 
 // Add click event listener for the "Undo" button
 const undoButton = document.getElementById('undo-button');
