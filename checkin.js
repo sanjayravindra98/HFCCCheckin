@@ -93,6 +93,81 @@ function populateStudentsInGroup(group) {
   }
 }
 
+// Array to store selected students
+const selectedStudents = [];
+
+// Function to handle the click event for student buttons
+function handleStudentButtonClick(studentData, studentButton) {
+  if (selectedStudents.includes(studentData)) {
+    // Student is already selected, deselect it
+    const index = selectedStudents.indexOf(studentData);
+    if (index !== -1) {
+      selectedStudents.splice(index, 1);
+    }
+    // Change the button color back to blue
+    studentButton.style.backgroundColor = '#8CB2D9';
+  } else {
+    // Student is not selected, select it
+    selectedStudents.push(studentData);
+    // Change the button color to white
+    studentButton.style.backgroundColor = 'white';
+  }
+  // Show the "Confirm" button if there are selected students
+  const confirmButton = document.getElementById('confirm-button');
+  confirmButton.style.display = selectedStudents.length > 0 ? 'block' : 'none';
+}
+
+// Function to handle the click event for the "Confirm" button
+function handleConfirmButtonClick() {
+  // Mark selected students as present in the DB
+  const sessionDate = sessionStorage.getItem('sessionDate');
+  if (sessionDate) {
+    db.collection('sessions')
+      .where('date', '==', sessionDate)
+      .get()
+      .then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          const sessionDoc = querySnapshot.docs[0];
+          const studentsSubcollectionRef = sessionDoc.ref.collection('students');
+          selectedStudents.forEach((studentData) => {
+            studentsSubcollectionRef
+              .where('name', '==', studentData.name)
+              .get()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  doc.ref.update({ present: true });
+                });
+              })
+              .catch((error) => {
+                console.error('Error marking student as present:', error);
+              });
+          });
+          // Refresh the page after marking students as present
+          location.reload();
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching session:', error);
+      });
+  }
+}
+
+// Add click event listeners for student buttons
+const studentButtons = document.querySelectorAll('.student-button');
+studentButtons.forEach((studentButton) => {
+  const studentName = studentButton.textContent;
+  const studentData = {
+    name: studentName,
+  };
+  studentButton.addEventListener('click', () => {
+    handleStudentButtonClick(studentData, studentButton);
+  });
+});
+
+// Add click event listener for the "Confirm" button
+const confirmButton = document.getElementById('confirm-button');
+confirmButton.addEventListener('click', handleConfirmButtonClick);
+
 // Call the function to populate students in each group div
 populateStudentsInGroup('8C');
 populateStudentsInGroup('8D');
