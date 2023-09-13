@@ -46,10 +46,17 @@ function displaySessions() {
             sessionsArray.push(sessionData);
         });
 
-        // Reverse the array to have the most recent session first
-        sessionsArray.reverse();
+        // Sort the array by date in descending order
+        sessionsArray.sort(function(a, b) {
+            // Convert date strings to Date objects for comparison
+            var dateA = parseDate(a.date);
+            var dateB = parseDate(b.date);
 
-        // Iterate through the reversed array and add sessions to the list
+            // Sort in descending order (most recent first)
+            return dateB - dateA;
+        });
+
+        // Iterate through the sorted array and add sessions to the list
         sessionsArray.forEach(function(sessionData) {
             var sessionDate = sessionData.date;
 
@@ -64,6 +71,16 @@ function displaySessions() {
     });
 }
 
+// Function to parse date strings in the "9/11/23" format
+function parseDate(dateString) {
+    var parts = dateString.split('/');
+    var month = parseInt(parts[0]);
+    var day = parseInt(parts[1]);
+    var year = parseInt(parts[2]);
+
+    // Create a Date object with the parsed values
+    return new Date(year, month - 1, day); // Subtract 1 from month since months are zero-indexed in JavaScript
+}
 
 // Initial call to display sessions
 displaySessions();
