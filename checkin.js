@@ -19,13 +19,12 @@ auth.onAuthStateChanged((user) => {
         // User is not authenticated; redirect to login page
         window.location.href = "./index.html"; // Redirect to login
     } else {
-        // User is authenticated; you can proceed with displaying the checkin page
+        // User is authenticated; you can proceed with displaying the check-in page
     }
 });
 
 // Reference to the Firestore database
 const db = firebase.firestore();
-
 
 // Function to populate students in the specified group div
 function populateStudentsInGroup(group) {
@@ -68,8 +67,10 @@ function populateStudentsInGroup(group) {
                     const studentButton = document.createElement('button');
                     studentButton.classList.add('student-button');
                     studentButton.textContent = studentData.name;
+
+                    // Add click event listener for student button
                     studentButton.addEventListener('click', () => {
-                      console.log(`Clicked on ${studentData.name}`);
+                      handleStudentButtonClick(studentData, studentButton);
                     });
 
                     groupDivs.forEach((groupDiv) => {
@@ -107,16 +108,17 @@ function handleStudentButtonClick(studentData, studentButton) {
     // Change the button color back to blue
     studentButton.style.backgroundColor = '#8CB2D9';
   } else if (studentData.present) { // Check if the student is already marked present
-    // Student is not selected, select it
+    // Student is selected for "Undo," mark as not present
     selectedStudents.push(studentData);
-    // Change the button color to green to indicate selection of present students
-    studentButton.style.backgroundColor = '#5dc278';
-  } else if (!studentData.present) { // Check if the student is not already marked present
-    // Student is not selected, select it
-    selectedStudents.push(studentData);
-    // Change the button color to white to indicate selection of non-present students
+    // Change the button color to white to indicate selection
     studentButton.style.backgroundColor = 'white';
+  } else if (!studentData.present) { // Check if the student is not already marked present
+    // Student is selected for "Confirm," mark as present
+    selectedStudents.push(studentData);
+    // Change the button color to green to indicate selection
+    studentButton.style.backgroundColor = '#5dc278';
   }
+
   // Show the "Confirm" or "Undo" button based on the selection
   const confirmButton = document.getElementById('confirm-button');
   const undoButton = document.getElementById('undo-button');
@@ -128,7 +130,7 @@ function handleStudentButtonClick(studentData, studentButton) {
 
 // Function to handle the click event for the "Undo" button
 function handleUndoButtonClick() {
-  // Mark selected present students as not present in the DB
+  // Mark selected students as not present in the DB
   const sessionDate = sessionStorage.getItem('sessionDate');
   if (sessionDate) {
     db.collection('sessions')
@@ -162,10 +164,6 @@ function handleUndoButtonClick() {
       });
   }
 }
-
-// Add click event listener for the "Undo" button
-const undoButton = document.getElementById('undo-button');
-undoButton.addEventListener('click', handleUndoButtonClick);
 
 // Function to handle the click event for the "Confirm" button
 function handleConfirmButtonClick() {
@@ -202,17 +200,9 @@ function handleConfirmButtonClick() {
   }
 }
 
-// Add click event listeners for student buttons
-const studentButtons = document.querySelectorAll('.student-button');
-studentButtons.forEach((studentButton) => {
-  const studentName = studentButton.textContent;
-  const studentData = {
-    name: studentName,
-  };
-  studentButton.addEventListener('click', () => {
-    handleStudentButtonClick(studentData, studentButton);
-  });
-});
+// Add click event listener for the "Undo" button
+const undoButton = document.getElementById('undo-button');
+undoButton.addEventListener('click', handleUndoButtonClick);
 
 // Add click event listener for the "Confirm" button
 const confirmButton = document.getElementById('confirm-button');
