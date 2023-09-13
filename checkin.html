@@ -90,6 +90,34 @@
         .student-checkbox:checked + .student-button {
             background-color: #5dc278;
         }
+
+        /* Add this CSS for the button container */
+        .button-container {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          margin-right: 20px;
+        }
+        
+        /* Style for the action buttons */
+        .action-button {
+          display: none; /* Initially hidden */
+          font-family: 'Roboto', sans-serif;
+          font-size: 20px;
+          padding: 10px 20px;
+          border: none;
+          cursor: pointer;
+          border-radius: 5px;
+          margin-left: 10px;
+          background-color: #8CB2D9;
+          color: white;
+          transition: background-color 0.3s ease;
+        }
+        
+        .action-button:hover {
+          background-color: #5dc278;
+        }
+
     </style>
 </head>
 <body>
