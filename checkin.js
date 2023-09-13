@@ -246,6 +246,18 @@ function handleConfirmButtonClick() {
   }
 }
 
+// Function to handle the click event for the "Back" button
+function handleBackButtonClick() {
+  // Clear local storage
+  sessionStorage.clear();
+  // Redirect to "./sessionselector"
+  window.location.href = './sessionselector.html'; // Update the URL as needed
+}
+
+// Add click event listener for the "Back" button
+const backButton = document.getElementById('back-button');
+backButton.addEventListener('click', handleBackButtonClick);
+
 
 // Add click event listener for the "Undo" button
 const undoButton = document.getElementById('undo-button');
