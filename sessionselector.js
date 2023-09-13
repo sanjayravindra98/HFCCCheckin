@@ -84,10 +84,12 @@ function handleSessionClick(event) {
     window.location.href = './checkin.html'; // Update the URL as needed
 }
 
-// Add click event listeners to all session buttons
-var sessionButtons = document.querySelectorAll("ul#session-list li");
-sessionButtons.forEach(function(button) {
-    button.addEventListener("click", handleSessionClick);
+// Add event delegation to the session list
+document.getElementById("session-list").addEventListener("click", function(event) {
+    if (event.target && event.target.nodeName === "LI") {
+        // Handle the click on a session button
+        handleSessionClick(event);
+    }
 });
 
 // Function to parse date strings in the "9/11/23" format
