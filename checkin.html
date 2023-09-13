@@ -117,6 +117,10 @@
         }
 
         /* Position the buttons within the header */
+        .back {
+          left: 20px; /* Position "Back" button on the left side */
+        }
+        
         .confirm {
           right: 20px; /* Adjust the right position as needed */
         }
@@ -131,6 +135,7 @@
     <header>
       <h1>Holy Family Check-In</h1>
       <div class="button-container">
+        <button id="back-button" class="action-button back">Back</button>
         <button id="confirm-button" class="action-button confirm">Confirm</button>
         <button id="undo-button" class="action-button undo">Undo</button>
       </div>
