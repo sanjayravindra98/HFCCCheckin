@@ -31,47 +31,101 @@ const db = firebase.firestore();
 function populateStudentsInGroup(group) {
   const groupDivs = document.querySelectorAll('.group');
 
-  groupDivs.forEach((groupDiv) => {
-    const groupName = groupDiv.getAttribute('data-group');
+  // Retrieve the session date from browser session storage
+  const sessionDate = sessionStorage.getItem('sessionDate');
 
-    if (groupName === group) {
-      // Fetch students from Firestore for the specified group
-      db.collection('students')
-        .where('group', '==', group)
-        .get()
-        .then((querySnapshot) => {
-          const students = [];
+  if (sessionDate) {
+    // Query the "sessions" collection in Firestore for the session with the matching date
+    db.collection('sessions')
+      .where('date', '==', sessionDate)
+      .get()
+      .then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          // Session with the matching date exists
+          const sessionDoc = querySnapshot.docs[0]; // Assuming there's only one session per date
 
-          querySnapshot.forEach((doc) => {
-            const studentData = doc.data();
-            students.push({
-              name: studentData.name,
-              lastName: studentData.name.split(' ').pop(), // Get last name
+          // Check if the session has a "students" subcollection
+          const studentsSubcollectionRef = sessionDoc.ref.collection('students');
+
+          studentsSubcollectionRef
+            .get()
+            .then((subcollectionSnapshot) => {
+              if (!subcollectionSnapshot.empty) {
+                // "students" subcollection exists, populate the page with its content
+                const studentsArray = [];
+                subcollectionSnapshot.forEach((doc) => {
+                  const studentData = doc.data();
+                  // Extract the last name from the student's full name
+                  studentData.lastName = studentData.name.split(' ').pop();
+                  studentsArray.push(studentData);
+                });
+
+                // Sort students alphabetically by last name
+                studentsArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
+
+                studentsArray.forEach((studentData) => {
+                  const studentButton = document.createElement('button');
+                  studentButton.classList.add('student-button');
+                  studentButton.textContent = studentData.name;
+                  studentButton.addEventListener('click', () => {
+                    console.log(`Clicked on ${studentData.name}`);
+                  });
+                  groupDivs.forEach((groupDiv) => {
+                    const groupName = groupDiv.getAttribute('data-group');
+                    if (groupName === group) {
+                      groupDiv.appendChild(studentButton);
+                    }
+                  });
+                });
+              } else {
+                // "students" subcollection does not exist, create it by copying from the main "students" collection
+                db.collection('students')
+                  .where('group', '==', group)
+                  .get()
+                  .then((mainStudentsSnapshot) => {
+                    const batch = db.batch();
+
+                    mainStudentsSnapshot.forEach((mainStudentDoc) => {
+                      const studentData = mainStudentDoc.data();
+                      // Extract the last name from the student's full name
+                      studentData.lastName = studentData.name.split(' ').pop();
+                      const studentRef = studentsSubcollectionRef.doc(mainStudentDoc.id);
+                      batch.set(studentRef, studentData);
+                    });
+
+                    batch.commit().then(() => {
+                      // Now that the subcollection is created, populate the page with its content
+                      subcollectionSnapshot.forEach((doc) => {
+                        const studentData = doc.data();
+                        const studentButton = document.createElement('button');
+                        studentButton.classList.add('student-button');
+                        studentButton.textContent = studentData.name;
+                        studentButton.addEventListener('click', () => {
+                          console.log(`Clicked on ${studentData.name}`);
+                        });
+                        groupDivs.forEach((groupDiv) => {
+                          const groupName = groupDiv.getAttribute('data-group');
+                          if (groupName === group) {
+                            groupDiv.appendChild(studentButton);
+                          }
+                        });
+                      });
+                    });
+                  })
+                  .catch((error) => {
+                    console.error('Error fetching students from main collection:', error);
+                  });
+              }
+            })
+            .catch((error) => {
+              console.error('Error checking "students" subcollection:', error);
             });
-          });
-
-          // Sort students alphabetically by last name
-          students.sort((a, b) => a.lastName.localeCompare(b.lastName));
-
-          students.forEach((student) => {
-            const studentButton = document.createElement('button');
-            studentButton.classList.add('student-button');
-            studentButton.textContent = student.name;
-
-            // Add click event handler for student button
-            studentButton.addEventListener('click', () => {
-              // Handle the click event for the student button here
-              console.log(`Clicked on ${student.name}`);
-            });
-
-            groupDiv.appendChild(studentButton);
-          });
-        })
-        .catch((error) => {
-          console.error('Error fetching students:', error);
-        });
-    }
-  });
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching session:', error);
+      });
+  }
 }
 
 // Call the function to populate students in each group div
