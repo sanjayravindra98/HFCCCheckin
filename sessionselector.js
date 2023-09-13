@@ -34,11 +34,23 @@ var sessionList = document.getElementById("session-list");
 function displaySessions() {
     sessionList.innerHTML = ""; // Clear previous sessions
 
-    // Retrieve sessions from Firestore
-    db.collection("sessions").get()
+    // Create an array to store session data
+    var sessionsArray = [];
+
+    // Retrieve sessions from Firestore and push them into the array
+    db.collection("sessions")
+    .get()
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
             var sessionData = doc.data();
+            sessionsArray.push(sessionData);
+        });
+
+        // Reverse the array to have the most recent session first
+        sessionsArray.reverse();
+
+        // Iterate through the reversed array and add sessions to the list
+        sessionsArray.forEach(function(sessionData) {
             var sessionDate = sessionData.date;
 
             // Create a list item for each session
@@ -51,6 +63,7 @@ function displaySessions() {
         console.error("Error retrieving sessions: ", error);
     });
 }
+
 
 // Initial call to display sessions
 displaySessions();
