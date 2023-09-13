@@ -33,7 +33,6 @@ function populateStudentsInGroup(group) {
 
   // Retrieve the session date from browser session storage
   const sessionDate = sessionStorage.getItem('sessionDate');
-  console.log(`sessionDate is ${sessionDate}`);
 
   if (sessionDate) {
     // Query the "sessions" collection in Firestore for the session with the matching date
@@ -65,57 +64,22 @@ function populateStudentsInGroup(group) {
                 studentsArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
 
                 studentsArray.forEach((studentData) => {
-                  const studentButton = document.createElement('button');
-                  studentButton.classList.add('student-button');
-                  studentButton.textContent = studentData.name;
-                  studentButton.addEventListener('click', () => {
-                    console.log(`Clicked on ${studentData.name}`);
-                  });
-                  groupDivs.forEach((groupDiv) => {
-                    const groupName = groupDiv.getAttribute('data-group');
-                    if (groupName === group) {
-                      groupDiv.appendChild(studentButton);
-                    }
-                  });
+                  if (studentData.group === group) {
+                    const studentButton = document.createElement('button');
+                    studentButton.classList.add('student-button');
+                    studentButton.textContent = studentData.name;
+                    studentButton.addEventListener('click', () => {
+                      console.log(`Clicked on ${studentData.name}`);
+                    });
+
+                    groupDivs.forEach((groupDiv) => {
+                      const groupName = groupDiv.getAttribute('data-group');
+                      if (groupName === group) {
+                        groupDiv.appendChild(studentButton);
+                      }
+                    });
+                  }
                 });
-              } else {
-                // "students" subcollection does not exist, create it by copying from the main "students" collection
-                db.collection('students')
-                  .where('group', '==', group)
-                  .get()
-                  .then((mainStudentsSnapshot) => {
-                    const batch = db.batch();
-
-                    mainStudentsSnapshot.forEach((mainStudentDoc) => {
-                      const studentData = mainStudentDoc.data();
-                      // Extract the last name from the student's full name
-                      studentData.lastName = studentData.name.split(' ').pop();
-                      const studentRef = studentsSubcollectionRef.doc(mainStudentDoc.id);
-                      batch.set(studentRef, studentData);
-                    });
-
-                    batch.commit().then(() => {
-                      // Now that the subcollection is created, populate the page with its content
-                      subcollectionSnapshot.forEach((doc) => {
-                        const studentData = doc.data();
-                        const studentButton = document.createElement('button');
-                        studentButton.classList.add('student-button');
-                        studentButton.textContent = studentData.name;
-                        studentButton.addEventListener('click', () => {
-                          console.log(`Clicked on ${studentData.name}`);
-                        });
-                        groupDivs.forEach((groupDiv) => {
-                          const groupName = groupDiv.getAttribute('data-group');
-                          if (groupName === group) {
-                            groupDiv.appendChild(studentButton);
-                          }
-                        });
-                      });
-                    });
-                  })
-                  .catch((error) => {
-                    console.error('Error fetching students from main collection:', error);
-                  });
               }
             })
             .catch((error) => {
