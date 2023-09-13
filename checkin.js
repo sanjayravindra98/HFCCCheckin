@@ -106,16 +106,66 @@ function handleStudentButtonClick(studentData, studentButton) {
     }
     // Change the button color back to blue
     studentButton.style.backgroundColor = '#8CB2D9';
-  } else {
+  } else if (studentData.present) { // Check if the student is already marked present
     // Student is not selected, select it
     selectedStudents.push(studentData);
-    // Change the button color to white
+    // Change the button color to green to indicate selection of present students
+    studentButton.style.backgroundColor = '#5dc278';
+  } else if (!studentData.present) { // Check if the student is not already marked present
+    // Student is not selected, select it
+    selectedStudents.push(studentData);
+    // Change the button color to white to indicate selection of non-present students
     studentButton.style.backgroundColor = 'white';
   }
-  // Show the "Confirm" button if there are selected students
+  // Show the "Confirm" or "Undo" button based on the selection
   const confirmButton = document.getElementById('confirm-button');
-  confirmButton.style.display = selectedStudents.length > 0 ? 'block' : 'none';
+  const undoButton = document.getElementById('undo-button');
+  const canConfirm = selectedStudents.length > 0 && !selectedStudents.some(student => student.present);
+  const canUndo = selectedStudents.length > 0 && selectedStudents.some(student => student.present);
+  confirmButton.style.display = canConfirm ? 'block' : 'none';
+  undoButton.style.display = canUndo ? 'block' : 'none';
 }
+
+// Function to handle the click event for the "Undo" button
+function handleUndoButtonClick() {
+  // Mark selected present students as not present in the DB
+  const sessionDate = sessionStorage.getItem('sessionDate');
+  if (sessionDate) {
+    db.collection('sessions')
+      .where('date', '==', sessionDate)
+      .get()
+      .then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          const sessionDoc = querySnapshot.docs[0];
+          const studentsSubcollectionRef = sessionDoc.ref.collection('students');
+          selectedStudents.forEach((studentData) => {
+            if (studentData.present) {
+              studentsSubcollectionRef
+                .where('name', '==', studentData.name)
+                .get()
+                .then((querySnapshot) => {
+                  querySnapshot.forEach((doc) => {
+                    doc.ref.update({ present: false });
+                  });
+                })
+                .catch((error) => {
+                  console.error('Error marking student as not present:', error);
+                });
+            }
+          });
+          // Refresh the page after marking students as not present
+          location.reload();
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching session:', error);
+      });
+  }
+}
+
+// Add click event listener for the "Undo" button
+const undoButton = document.getElementById('undo-button');
+undoButton.addEventListener('click', handleUndoButtonClick);
 
 // Function to handle the click event for the "Confirm" button
 function handleConfirmButtonClick() {
