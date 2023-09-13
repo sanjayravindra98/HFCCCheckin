@@ -116,18 +116,17 @@ function handleStudentButtonClick(studentData, studentButton) {
     }
     // Change the button color back to blue
     studentButton.style.backgroundColor = '#8CB2D9';
-  } else if (studentData.present) { // Check if the student is already marked present
-    // Student is selected for "Undo," mark as not present
+  } else if (studentData.present) {
+    // Student is not selected, select it
     selectedStudents.push(studentData);
-    // Change the button color to white to indicate selection
-    studentButton.style.backgroundColor = 'white';
-  } else if (!studentData.present) { // Check if the student is not already marked present
-    // Student is selected for "Confirm," mark as present
-    selectedStudents.push(studentData);
-    // Change the button color to green to indicate selection
+    // Change the button color to green to indicate selection of present students
     studentButton.style.backgroundColor = '#5dc278';
+  } else {
+    // Student is not selected, select it
+    selectedStudents.push(studentData);
+    // Change the button color to white to indicate selection of non-present students
+    studentButton.style.backgroundColor = 'white';
   }
-
   // Show the "Confirm" or "Undo" button based on the selection
   const confirmButton = document.getElementById('confirm-button');
   const undoButton = document.getElementById('undo-button');
