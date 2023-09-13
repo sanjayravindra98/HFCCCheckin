@@ -1,3 +1,5 @@
+document.addEventListener("DOMContentLoaded", function() {
+
 // Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyCMjFNxcITUhsQVB_4rVFMQsKdqMPQ425w",
@@ -168,3 +170,4 @@ startSessionBtn.addEventListener("click", addNewSessionAndRedirect);
 // Check if a session for the current date exists
 checkSessionExists();
 
+});
