@@ -68,6 +68,15 @@ function populateStudentsInGroup(group) {
                     studentButton.classList.add('student-button');
                     studentButton.textContent = studentData.name;
 
+                    // Set the button color based on "present" status or selection
+                    if (studentData.present) {
+                      studentButton.style.backgroundColor = '#5dc278'; // Green for present
+                    } else if (selectedStudents.includes(studentData)) {
+                      studentButton.style.backgroundColor = 'white'; // White for selected, not confirmed
+                    } else {
+                      studentButton.style.backgroundColor = '#8CB2D9'; // Blue for default
+                    }
+
                     // Add click event listener for student button
                     studentButton.addEventListener('click', () => {
                       handleStudentButtonClick(studentData, studentButton);
