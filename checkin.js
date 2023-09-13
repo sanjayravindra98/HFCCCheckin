@@ -33,6 +33,7 @@ function populateStudentsInGroup(group) {
 
   // Retrieve the session date from browser session storage
   const sessionDate = sessionStorage.getItem('sessionDate');
+  console.log(`sessionDate is ${sessionDate}`);
 
   if (sessionDate) {
     // Query the "sessions" collection in Firestore for the session with the matching date
