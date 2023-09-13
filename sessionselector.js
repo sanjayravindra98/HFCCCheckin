@@ -27,6 +27,25 @@ auth.onAuthStateChanged((user) => {
 // Initialize Firestore
 var db = firebase.firestore();
 
+// Function to handle when a session button is clicked
+function handleSessionClick(event) {
+    // Get the clicked session date
+    var clickedDate = event.target.textContent;
+
+    // Store the clicked date in sessionStorage
+    sessionStorage.setItem('clickedDate', clickedDate);
+
+    // Redirect to the "./checkin" page
+    window.location.href = './checkin.html'; // Update the URL as needed
+}
+
+// Add click event listeners to all session buttons
+var sessionButtons = document.querySelectorAll("ul#session-list li");
+sessionButtons.forEach(function(button) {
+    button.addEventListener("click", handleSessionClick);
+});
+
+
 // Reference to the session list element
 var sessionList = document.getElementById("session-list");
 
