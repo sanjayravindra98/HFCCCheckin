@@ -31,6 +31,7 @@ var db = firebase.firestore();
 function handleSessionClick(event) {
     // Get the clicked session date
     var clickedDate = event.target.textContent;
+    console.log(clickedDate);
 
     // Store the clicked date in sessionStorage
     sessionStorage.setItem('clickedDate', clickedDate);
@@ -150,6 +151,7 @@ function addNewSessionAndRedirect() {
 
         // Store the newly added date in sessionStorage
         sessionStorage.setItem('clickedDate', formattedDate);
+        console.log(formattedDate);
 
         // Redirect to the "./checkin" page
         window.location.href = './checkin.html'; // Update the URL as needed
