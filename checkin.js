@@ -152,8 +152,8 @@ function handleStudentButtonClick(studentData, studentButton) {
   }
 
   // Show the "Confirm" or "Undo" button based on the selection
-  const confirmButton = document.getElementById('confirm-button');
-  const undoButton = document.getElementById('undo-button');
+  const confirmButton = document.querySelector('.confirm'); // Update to target the "Confirm" button
+  const undoButton = document.querySelector('.undo'); // Update to target the "Undo" button
   const canConfirm = selectedStudents.length > 0 && !selectedStudents.every(student => student.present);
   const canUndo = selectedStudents.length > 0 && selectedStudents.some(student => student.present);
   confirmButton.style.display = canConfirm ? 'block' : 'none';
