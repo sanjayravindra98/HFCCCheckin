@@ -77,7 +77,6 @@ function displaySessions() {
 function handleSessionClick(event) {
     // Get the clicked session date
     var clickedDate = event.target.textContent;
-    console.log(clickedDate);
 
     // Store the clicked date in sessionStorage
     sessionStorage.setItem('clickedDate', clickedDate);
