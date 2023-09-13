@@ -110,6 +110,18 @@ const selectedStudents = [];
 function handleStudentButtonClick(studentData, studentButton) {
   const isPresent = studentData.present;
   const isSelected = selectedStudents.includes(studentData);
+  const isCurrentlySelectingGreen = selectedStudents.some(student => student.present);
+  const isCurrentlySelectingBlue = selectedStudents.every(student => !student.present);
+
+  if (isCurrentlySelectingGreen && !isPresent) {
+    // Currently selecting green students, cannot select a blue student
+    return;
+  }
+
+  if (isCurrentlySelectingBlue && isPresent) {
+    // Currently selecting blue students, cannot select a green student
+    return;
+  }
 
   if (isPresent && isSelected) {
     // Student is already marked present and selected, deselect it
@@ -147,6 +159,7 @@ function handleStudentButtonClick(studentData, studentButton) {
   confirmButton.style.display = canConfirm ? 'block' : 'none';
   undoButton.style.display = canUndo ? 'block' : 'none';
 }
+
 
 // Function to handle the click event for the "Undo" button
 function handleUndoButtonClick() {
