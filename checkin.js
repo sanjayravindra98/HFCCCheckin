@@ -133,13 +133,31 @@ function handleStudentButtonClick(studentData, studentButton) {
         if (index !== -1) {
             selectedStudents.splice(index, 1);
         }
-    } else {
-        // Student is not marked present or not selected, select it
+        // Change the button color back to blue with white text
+        studentButton.classList.remove('selected-white-green');
+        studentButton.classList.add('selected-blue');
+    } else if (!isPresent && isSelected) {
+        // Student is not marked present but selected, deselect it
+        const index = selectedStudents.indexOf(studentData);
+        if (index !== -1) {
+            selectedStudents.splice(index, 1);
+        }
+        // Change the button color back to blue with white text
+        studentButton.classList.remove('selected-white-green');
+        studentButton.classList.add('selected-blue');
+    } else if (isPresent && !isSelected) {
+        // Student is already marked present but not selected, select it
         selectedStudents.push(studentData);
+        // Change the button color to white with blue text to indicate selection
+        studentButton.classList.remove('selected-blue');
+        studentButton.classList.add('selected-white-blue');
+    } else {
+        // Student is not marked present and not selected, select it
+        selectedStudents.push(studentData);
+        // Change the button color to white with green text to indicate selection
+        studentButton.classList.remove('selected-blue');
+        studentButton.classList.add('selected-white-green');
     }
-
-    // Change the button color to white to indicate selection
-    studentButton.classList.toggle('selected-white');
 
     // Show the "Confirm" or "Undo" button based on the selection
     const confirmButton = document.querySelector('.confirm');
@@ -149,8 +167,6 @@ function handleStudentButtonClick(studentData, studentButton) {
     confirmButton.style.display = canConfirm ? 'block' : 'none';
     undoButton.style.display = canUndo ? 'block' : 'none';
 }
-
-
 
 
 // Function to handle the click event for the "Undo" button
