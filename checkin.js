@@ -127,25 +127,35 @@ function handleStudentButtonClick(studentData, studentButton) {
         return;
     }
 
-    const initialColorClass = studentButton.classList.contains('blue') ? 'blue' : 'green';
-
-    if (selectedStudents.includes(studentData)) {
+    if (isPresent && isSelected) {
+        // Student is already marked present and selected, deselect it
         const index = selectedStudents.indexOf(studentData);
         if (index !== -1) {
             selectedStudents.splice(index, 1);
         }
-        studentButton.classList.remove('white');
-        studentButton.classList.add(initialColorClass);
-    } else if (isPresent) {
+        // Change the button color back to blue
+        studentButton.style.backgroundColor = '#8CB2D9';
+    } else if (!isPresent && isSelected) {
+        // Student is not marked present but selected, deselect it
+        const index = selectedStudents.indexOf(studentData);
+        if (index !== -1) {
+            selectedStudents.splice(index, 1);
+        }
+        // Change the button color back to blue
+        studentButton.style.backgroundColor = '#8CB2D9';
+    } else if (isPresent && !isSelected) {
+        // Student is already marked present but not selected, select it
         selectedStudents.push(studentData);
-        studentButton.classList.remove(initialColorClass);
-        studentButton.classList.add('white');
-    } else if (!isPresent) {
+        // Change the button color to white to indicate selection
+        studentButton.style.backgroundColor = 'white';
+    } else {
+        // Student is not marked present and not selected, select it
         selectedStudents.push(studentData);
-        studentButton.classList.remove(initialColorClass);
-        studentButton.classList.add('white');
+        // Change the button color to white to indicate selection
+        studentButton.style.backgroundColor = 'white';
     }
 
+    // Show the "Confirm" or "Undo" button based on the selection
     const confirmButton = document.querySelector('.confirm');
     const undoButton = document.querySelector('.undo');
     const canConfirm = selectedStudents.length > 0 && !selectedStudents.every(student => student.present);
@@ -153,6 +163,7 @@ function handleStudentButtonClick(studentData, studentButton) {
     confirmButton.style.display = canConfirm ? 'block' : 'none';
     undoButton.style.display = canUndo ? 'block' : 'none';
 }
+
 
 // Function to handle the click event for the "Undo" button
 function handleUndoButtonClick() {
