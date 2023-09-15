@@ -133,31 +133,13 @@ function handleStudentButtonClick(studentData, studentButton) {
         if (index !== -1) {
             selectedStudents.splice(index, 1);
         }
-        // Revert to the original color (blue or green) with white text
-        if (isPresent) {
-            studentButton.classList.remove('selected-white');
-            studentButton.classList.add(isCurrentlySelectingBlue ? 'selected-blue' : 'selected-green');
-        }
-    } else if (!isPresent && isSelected) {
-        // Student is not marked present but selected, deselect it
-        const index = selectedStudents.indexOf(studentData);
-        if (index !== -1) {
-            selectedStudents.splice(index, 1);
-        }
-        // Revert to the original color (blue or green) with white text
-        studentButton.classList.remove('selected-white');
-        studentButton.classList.add(isCurrentlySelectingBlue ? 'selected-blue' : 'selected-green');
-    } else if (isPresent && !isSelected) {
-        // Student is already marked present but not selected, select it
-        selectedStudents.push(studentData);
-        // Change the button color to white to indicate selection
-        studentButton.classList.add('selected-white');
     } else {
-        // Student is not marked present and not selected, select it
+        // Student is not marked present or not selected, select it
         selectedStudents.push(studentData);
-        // Change the button color to white to indicate selection
-        studentButton.classList.add('selected-white');
     }
+
+    // Change the button color to white to indicate selection
+    studentButton.classList.toggle('selected-white');
 
     // Show the "Confirm" or "Undo" button based on the selection
     const confirmButton = document.querySelector('.confirm');
@@ -167,6 +149,7 @@ function handleStudentButtonClick(studentData, studentButton) {
     confirmButton.style.display = canConfirm ? 'block' : 'none';
     undoButton.style.display = canUndo ? 'block' : 'none';
 }
+
 
 
 
