@@ -132,30 +132,34 @@ function handleStudentButtonClick(studentData, studentButton) {
         if (index !== -1) {
             selectedStudents.splice(index, 1);
         }
-        // Change the button color and text color back to green
-        studentButton.classList.remove('selected-white');
-        studentButton.classList.add('selected-green');
+        // Remove the class for white with blue text
+        studentButton.classList.remove('selected-white-blue');
+        // Add the class for white with green text
+        studentButton.classList.add('selected-white-green');
     } else if (!isPresent && isSelected) {
         // Student is not marked present but selected, deselect it
         const index = selectedStudents.indexOf(studentData);
         if (index !== -1) {
             selectedStudents.splice(index, 1);
         }
-        // Change the button color and text color back to green
-        studentButton.classList.remove('selected-white');
-        studentButton.classList.add('selected-green');
+        // Remove the class for white with blue text
+        studentButton.classList.remove('selected-white-blue');
+        // Add the class for white with green text
+        studentButton.classList.add('selected-white-green');
     } else if (isPresent && !isSelected) {
         // Student is already marked present but not selected, select it
         selectedStudents.push(studentData);
-        // Change the button color to white to indicate selection
-        studentButton.classList.remove('selected-blue');
-        studentButton.classList.add('selected-white');
+        // Add the class for white with blue text
+        studentButton.classList.add('selected-white-blue');
+        // Remove the class for white with green text
+        studentButton.classList.remove('selected-white-green');
     } else {
         // Student is not marked present and not selected, select it
         selectedStudents.push(studentData);
-        // Change the button color to white and text color to green to indicate selection
-        studentButton.classList.remove('selected-blue');
-        studentButton.classList.add('selected-white');
+        // Add the class for white with blue text
+        studentButton.classList.add('selected-white-blue');
+        // Remove the class for white with green text
+        studentButton.classList.remove('selected-white-green');
     }
 
     // Show the "Confirm" or "Undo" button based on the selection
