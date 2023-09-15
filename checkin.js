@@ -133,10 +133,9 @@ function handleStudentButtonClick(studentData, studentButton) {
         if (index !== -1) {
             selectedStudents.splice(index, 1);
         }
-        // Change the button color back to green
-        studentButton.classList.remove('selected-blue');
-        studentButton.classList.remove('selected-white');
-        studentButton.classList.add('selected-green');
+        // Change the button color back to blue
+        studentButton.classList.remove('selected-white', 'selected-green');
+        studentButton.classList.add('selected-blue');
     } else if (!isPresent && isSelected) {
         // Student is not marked present but selected, deselect it
         const index = selectedStudents.indexOf(studentData);
@@ -144,22 +143,19 @@ function handleStudentButtonClick(studentData, studentButton) {
             selectedStudents.splice(index, 1);
         }
         // Change the button color back to blue
-        studentButton.classList.remove('selected-green');
-        studentButton.classList.remove('selected-white');
+        studentButton.classList.remove('selected-white', 'selected-green');
         studentButton.classList.add('selected-blue');
     } else if (isPresent && !isSelected) {
         // Student is already marked present but not selected, select it
         selectedStudents.push(studentData);
         // Change the button color to white to indicate selection
-        studentButton.classList.remove('selected-blue');
-        studentButton.classList.remove('selected-green');
+        studentButton.classList.remove('selected-blue', 'selected-green');
         studentButton.classList.add('selected-white');
     } else {
         // Student is not marked present and not selected, select it
         selectedStudents.push(studentData);
         // Change the button color to white to indicate selection
-        studentButton.classList.remove('selected-blue');
-        studentButton.classList.remove('selected-green');
+        studentButton.classList.remove('selected-blue', 'selected-green');
         studentButton.classList.add('selected-white');
     }
 
@@ -171,9 +167,6 @@ function handleStudentButtonClick(studentData, studentButton) {
     confirmButton.style.display = canConfirm ? 'block' : 'none';
     undoButton.style.display = canUndo ? 'block' : 'none';
 }
-
-
-
 
 // Function to handle the click event for the "Undo" button
 function handleUndoButtonClick() {
