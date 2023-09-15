@@ -90,27 +90,26 @@ function populateStudentsInGroup(group) {
 // Array to store selected students
 const selectedStudents = [];
 
-// Function to create and return a student button element with the specified properties
 function createStudentButton(studentData) {
-    const studentButton = document.createElement('button');
-    studentButton.classList.add('student-button');
-    studentButton.textContent = studentData.name;
+  const studentButton = document.createElement('button');
+  studentButton.classList.add('student-button');
+  studentButton.textContent = studentData.name;
 
-    // Set the button color based on "present" status or selection
-    if (studentData.present) {
-        studentButton.classList.add('green'); // Add green class for present students
-    } else if (selectedStudents.includes(studentData)) {
-        studentButton.classList.add('white'); // Add white class for selected, not confirmed
-    } else {
-        studentButton.classList.add('blue'); // Add blue class for default
-    }
+  // Set the button color based on "present" status or selection
+  if (studentData.present) {
+      studentButton.classList.add('selected-green'); // Add green class for present students
+  } else if (selectedStudents.includes(studentData)) {
+      studentButton.classList.add('selected-white'); // Add white class for selected, not confirmed
+  } else {
+      studentButton.classList.add('selected-blue'); // Add blue class for default
+  }
 
-    // Add click event listener for student button
-    studentButton.addEventListener('click', () => {
-        handleStudentButtonClick(studentData, studentButton);
-    });
+  // Add click event listener for student button
+  studentButton.addEventListener('click', () => {
+      handleStudentButtonClick(studentData, studentButton);
+  });
 
-    return studentButton;
+  return studentButton;
 }
 
 function handleStudentButtonClick(studentData, studentButton) {
