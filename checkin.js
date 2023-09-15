@@ -27,7 +27,7 @@ auth.onAuthStateChanged((user) => {
 const db = firebase.firestore();
 
 // Function to populate students in the specified group div
-function populateStudentsInGroup(group) {
+async function populateStudentsInGroup(group) {
     const groupDivs = document.querySelectorAll('.group');
 
     // Retrieve the session date from browser session storage
@@ -35,80 +35,71 @@ function populateStudentsInGroup(group) {
 
     if (sessionDate) {
         // Query the "sessions" collection in Firestore for the session with the matching date
-        db.collection('sessions')
-            .where('date', '==', sessionDate)
-            .get()
-            .then((querySnapshot) => {
-                if (!querySnapshot.empty) {
-                    // Session with the matching date exists
-                    const sessionDoc = querySnapshot.docs[0]; // Assuming there's only one session per date
+        const sessionQuery = await db.collection('sessions').where('date', '==', sessionDate).get();
 
-                    // Check if the session has a "students" subcollection
-                    const studentsSubcollectionRef = sessionDoc.ref.collection('students');
+        if (!sessionQuery.empty) {
+            // Session with the matching date exists
+            const sessionDoc = sessionQuery.docs[0]; // Assuming there's only one session per date
 
-                    studentsSubcollectionRef
-                        .get()
-                        .then((subcollectionSnapshot) => {
-                            if (!subcollectionSnapshot.empty) {
-                                // "students" subcollection exists, populate the page with its content
-                                const studentsArray = [];
-                                subcollectionSnapshot.forEach((doc) => {
-                                    const studentData = doc.data();
-                                    // Extract the last name from the student's full name
-                                    studentData.lastName = studentData.name.split(' ').pop();
-                                    studentsArray.push(studentData);
-                                });
+            // Check if the session has a "students" subcollection
+            const studentsSubcollectionRef = sessionDoc.ref.collection('students');
 
-                                // Sort students alphabetically by last name
-                                studentsArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
+            const subcollectionQuery = await studentsSubcollectionRef.get();
 
-                                studentsArray.forEach((studentData) => {
-                                    if (studentData.group === group) {
-                                        const studentButton = createStudentButton(studentData);
+            if (!subcollectionQuery.empty) {
+                // "students" subcollection exists, populate the page with its content
+                const studentsArray = [];
+                subcollectionQuery.forEach((doc) => {
+                    const studentData = doc.data();
+                    // Extract the last name from the student's full name
+                    studentData.lastName = studentData.name.split(' ').pop();
+                    studentsArray.push(studentData);
+                });
 
-                                        groupDivs.forEach((groupDiv) => {
-                                            const groupName = groupDiv.getAttribute('data-group');
-                                            if (groupName === group) {
-                                                groupDiv.appendChild(studentButton);
-                                            }
-                                        });
-                                    }
-                                });
-                            } else {
-                                // "students" subcollection doesn't exist, create it and copy the students
-                                const studentsCollectionRef = db.collection('students');
+                // Sort students alphabetically by last name
+                studentsArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
 
-                                studentsCollectionRef
-                                    .get()
-                                    .then((studentsSnapshot) => {
-                                        if (!studentsSnapshot.empty) {
-                                            // Iterate through students and add them to the "students" subcollection
-                                            studentsSnapshot.forEach((studentDoc) => {
-                                                const studentData = studentDoc.data();
-                                                studentsSubcollectionRef.add(studentData); // Add student to subcollection
-                                            });
+                studentsArray.forEach((studentData) => {
+                    if (studentData.group === group) {
+                        const studentButton = createStudentButton(studentData);
 
-                                            // Refresh the page after copying students
-                                            location.reload();
-                                        } else {
-                                            console.log("No students found in the 'students' collection.");
-                                        }
-                                    })
-                                    .catch((error) => {
-                                        console.error('Error fetching students:', error);
-                                    });
+                        groupDivs.forEach((groupDiv) => {
+                            const groupName = groupDiv.getAttribute('data-group');
+                            if (groupName === group) {
+                                groupDiv.appendChild(studentButton);
                             }
-                        })
-                        .catch((error) => {
-                            console.error('Error checking "students" subcollection:', error);
                         });
+                    }
+                });
+            } else {
+                // "students" subcollection doesn't exist, create it and copy the students
+                const studentsCollectionRef = db.collection('students');
+
+                const studentsQuery = await studentsCollectionRef.get();
+
+                if (!studentsQuery.empty) {
+                    // Iterate through students and add them to the "students" subcollection
+                    const batch = db.batch();
+                    studentsQuery.forEach((studentDoc) => {
+                        const studentData = studentDoc.data();
+                        const studentRef = studentsSubcollectionRef.doc(studentDoc.id);
+                        batch.set(studentRef, studentData);
+                    });
+
+                    await batch.commit();
+
+                    // Refresh the page after copying students
+                    location.reload();
+                } else {
+                    console.log("No students found in the 'students' collection.");
                 }
-            })
-            .catch((error) => {
-                console.error('Error fetching session:', error);
-            });
+            }
+        } else {
+            console.log("No session found for the specified date.");
+        }
     }
 }
+
 
 
 // Array to store selected students
