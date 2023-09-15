@@ -146,8 +146,8 @@ function handleStudentButtonClick(studentData, studentButton) {
             selectedStudents.splice(index, 1);
         }
         // Change the button color back to blue with white text
-        studentButton.classList.remove('selected-white-green'); // Remove green text class
-        studentButton.classList.add('selected-blue'); // Add blue text class
+        studentButton.classList.remove('selected-white-green');
+        studentButton.classList.add('selected-green');
     } else if (!isPresent && isSelected) {
         // Student is not marked present but selected, deselect it
         const index = selectedStudents.indexOf(studentData);
@@ -155,20 +155,20 @@ function handleStudentButtonClick(studentData, studentButton) {
             selectedStudents.splice(index, 1);
         }
         // Change the button color back to blue with white text
-        studentButton.classList.remove('selected-white-green'); // Remove green text class
-        studentButton.classList.add('selected-blue'); // Add blue text class
+        studentButton.classList.remove('selected-white-blue');
+        studentButton.classList.add('selected-blue');
     } else if (isPresent && !isSelected) {
         // Student is already marked present but not selected, select it
         selectedStudents.push(studentData);
         // Change the button color to white with green text to indicate selection
-        studentButton.classList.remove('selected-blue'); // Remove blue text class
-        studentButton.classList.add('selected-white-green'); // Add green text class
+        studentButton.classList.remove('selected-green');
+        studentButton.classList.add('selected-white-green');
     } else {
         // Student is not marked present and not selected, select it
         selectedStudents.push(studentData);
         // Change the button color to white with blue text to indicate selection
-        studentButton.classList.remove('selected-blue'); // Remove blue text class
-        studentButton.classList.add('selected-white-blue'); // Add green text class
+        studentButton.classList.remove('selected-blue');
+        studentButton.classList.add('selected-white-blue');
     }
 
     // Show the "Confirm" or "Undo" button based on the selection
