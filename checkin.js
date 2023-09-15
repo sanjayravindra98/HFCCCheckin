@@ -154,9 +154,9 @@ function handleStudentButtonClick(studentData, studentButton) {
     } else {
         // Student is not marked present and not selected, select it
         selectedStudents.push(studentData);
-        // Change the button color to white with green text to indicate selection
+        // Change the button color to white with blue text to indicate selection
         studentButton.classList.remove('selected-blue'); // Remove blue text class
-        studentButton.classList.add('selected-white-green'); // Add green text class
+        studentButton.classList.add('selected-white-blue'); // Add green text class
     }
 
     // Show the "Confirm" or "Undo" button based on the selection
