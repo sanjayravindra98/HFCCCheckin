@@ -28,138 +28,131 @@ const db = firebase.firestore();
 
 // Function to populate students in the specified group div
 function populateStudentsInGroup(group) {
-  const groupDivs = document.querySelectorAll('.group');
+    const groupDivs = document.querySelectorAll('.group');
 
-  // Retrieve the session date from browser session storage
-  const sessionDate = sessionStorage.getItem('sessionDate');
+    // Retrieve the session date from browser session storage
+    const sessionDate = sessionStorage.getItem('sessionDate');
 
-  if (sessionDate) {
-    // Query the "sessions" collection in Firestore for the session with the matching date
-    db.collection('sessions')
-      .where('date', '==', sessionDate)
-      .get()
-      .then((querySnapshot) => {
-        if (!querySnapshot.empty) {
-          // Session with the matching date exists
-          const sessionDoc = querySnapshot.docs[0]; // Assuming there's only one session per date
-
-          // Check if the session has a "students" subcollection
-          const studentsSubcollectionRef = sessionDoc.ref.collection('students');
-
-          studentsSubcollectionRef
+    if (sessionDate) {
+        // Query the "sessions" collection in Firestore for the session with the matching date
+        db.collection('sessions')
+            .where('date', '==', sessionDate)
             .get()
-            .then((subcollectionSnapshot) => {
-              if (!subcollectionSnapshot.empty) {
-                // "students" subcollection exists, populate the page with its content
-                const studentsArray = [];
-                subcollectionSnapshot.forEach((doc) => {
-                  const studentData = doc.data();
-                  // Extract the last name from the student's full name
-                  studentData.lastName = studentData.name.split(' ').pop();
-                  studentsArray.push(studentData);
-                });
+            .then((querySnapshot) => {
+                if (!querySnapshot.empty) {
+                    // Session with the matching date exists
+                    const sessionDoc = querySnapshot.docs[0]; // Assuming there's only one session per date
 
-                // Sort students alphabetically by last name
-                studentsArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
+                    // Check if the session has a "students" subcollection
+                    const studentsSubcollectionRef = sessionDoc.ref.collection('students');
 
-                studentsArray.forEach((studentData) => {
-                  if (studentData.group === group) {
-                    const studentButton = document.createElement('button');
-                    studentButton.classList.add('student-button');
-                    studentButton.textContent = studentData.name;
+                    studentsSubcollectionRef
+                        .get()
+                        .then((subcollectionSnapshot) => {
+                            if (!subcollectionSnapshot.empty) {
+                                // "students" subcollection exists, populate the page with its content
+                                const studentsArray = [];
+                                subcollectionSnapshot.forEach((doc) => {
+                                    const studentData = doc.data();
+                                    // Extract the last name from the student's full name
+                                    studentData.lastName = studentData.name.split(' ').pop();
+                                    studentsArray.push(studentData);
+                                });
 
-                    // Set the button color based on "present" status or selection
-                    if (studentData.present) {
-                      studentButton.style.backgroundColor = '#5dc278'; // Green for present
-                    } else if (selectedStudents.includes(studentData)) {
-                      studentButton.style.backgroundColor = 'white'; // White for selected, not confirmed
-                    } else {
-                      studentButton.style.backgroundColor = '#8CB2D9'; // Blue for default
-                    }
+                                // Sort students alphabetically by last name
+                                studentsArray.sort((a, b) => a.lastName.localeCompare(b.lastName));
 
-                    // Add click event listener for student button
-                    studentButton.addEventListener('click', () => {
-                      handleStudentButtonClick(studentData, studentButton);
-                    });
+                                studentsArray.forEach((studentData) => {
+                                    if (studentData.group === group) {
+                                        const studentButton = createStudentButton(studentData);
 
-                    groupDivs.forEach((groupDiv) => {
-                      const groupName = groupDiv.getAttribute('data-group');
-                      if (groupName === group) {
-                        groupDiv.appendChild(studentButton);
-                      }
-                    });
-                  }
-                });
-              }
+                                        groupDivs.forEach((groupDiv) => {
+                                            const groupName = groupDiv.getAttribute('data-group');
+                                            if (groupName === group) {
+                                                groupDiv.appendChild(studentButton);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error checking "students" subcollection:', error);
+                        });
+                }
             })
             .catch((error) => {
-              console.error('Error checking "students" subcollection:', error);
+                console.error('Error fetching session:', error);
             });
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching session:', error);
-      });
-  }
+    }
 }
 
 // Array to store selected students
 const selectedStudents = [];
 
-// Function to handle the click event for student buttons
-function handleStudentButtonClick(studentData, studentButton) {
-  const isPresent = studentData.present;
-  const isSelected = selectedStudents.includes(studentData);
-  const isCurrentlySelectingGreen = selectedStudents.some(student => student.present);
-  const isCurrentlySelectingBlue = selectedStudents.some(student => !student.present);
+// Function to create and return a student button element with the specified properties
+function createStudentButton(studentData) {
+    const studentButton = document.createElement('button');
+    studentButton.classList.add('student-button');
+    studentButton.textContent = studentData.name;
 
-  if (isCurrentlySelectingGreen && !isPresent) {
-    // Currently selecting green students, cannot select a blue student
-    return;
-  }
-
-  if (isCurrentlySelectingBlue && isPresent) {
-    // Currently selecting blue students, cannot select a green student
-    return;
-  }
-
-  if (isPresent && isSelected) {
-    // Student is already marked present and selected, deselect it
-    const index = selectedStudents.indexOf(studentData);
-    if (index !== -1) {
-      selectedStudents.splice(index, 1);
+    // Set the button color based on "present" status or selection
+    if (studentData.present) {
+        studentButton.classList.add('green'); // Add green class for present students
+    } else if (selectedStudents.includes(studentData)) {
+        studentButton.classList.add('white'); // Add white class for selected, not confirmed
+    } else {
+        studentButton.classList.add('blue'); // Add blue class for default
     }
-    // Change the button color back to green
-    studentButton.style.backgroundColor = '#5dc278';
-  } else if (!isPresent && isSelected) {
-    // Student is not marked present but selected, deselect it
-    const index = selectedStudents.indexOf(studentData);
-    if (index !== -1) {
-      selectedStudents.splice(index, 1);
-    }
-    // Change the button color back to blue
-    studentButton.style.backgroundColor = '#8CB2D9';
-  } else if (isPresent && !isSelected) {
-    // Student is already marked present but not selected, select it
-    selectedStudents.push(studentData);
-    // Change the button color to white to indicate selection
-    studentButton.style.backgroundColor = 'white';
-  } else {
-    // Student is not marked present and not selected, select it
-    selectedStudents.push(studentData);
-    // Change the button color to white to indicate selection
-    studentButton.style.backgroundColor = 'white';
-  }
 
-  // Show the "Confirm" or "Undo" button based on the selection
-  const confirmButton = document.querySelector('.confirm'); // Update to target the "Confirm" button
-  const undoButton = document.querySelector('.undo'); // Update to target the "Undo" button
-  const canConfirm = selectedStudents.length > 0 && !selectedStudents.every(student => student.present);
-  const canUndo = selectedStudents.length > 0 && selectedStudents.some(student => student.present);
-  confirmButton.style.display = canConfirm ? 'block' : 'none';
-  undoButton.style.display = canUndo ? 'block' : 'none';
+    // Add click event listener for student button
+    studentButton.addEventListener('click', () => {
+        handleStudentButtonClick(studentData, studentButton);
+    });
+
+    return studentButton;
 }
 
+function handleStudentButtonClick(studentData, studentButton) {
+    const isPresent = studentData.present;
+    const isSelected = selectedStudents.includes(studentData);
+    const isCurrentlySelectingGreen = selectedStudents.some(student => student.present);
+    const isCurrentlySelectingBlue = selectedStudents.some(student => !student.present);
+
+    if (isCurrentlySelectingGreen && !isPresent) {
+        return;
+    }
+
+    if (isCurrentlySelectingBlue && isPresent) {
+        return;
+    }
+
+    const initialColorClass = studentButton.classList.contains('blue') ? 'blue' : 'green';
+
+    if (selectedStudents.includes(studentData)) {
+        const index = selectedStudents.indexOf(studentData);
+        if (index !== -1) {
+            selectedStudents.splice(index, 1);
+        }
+        studentButton.classList.remove('white');
+        studentButton.classList.add(initialColorClass);
+    } else if (isPresent) {
+        selectedStudents.push(studentData);
+        studentButton.classList.remove(initialColorClass);
+        studentButton.classList.add('white');
+    } else if (!isPresent) {
+        selectedStudents.push(studentData);
+        studentButton.classList.remove(initialColorClass);
+        studentButton.classList.add('white');
+    }
+
+    const confirmButton = document.querySelector('.confirm');
+    const undoButton = document.querySelector('.undo');
+    const canConfirm = selectedStudents.length > 0 && !selectedStudents.every(student => student.present);
+    const canUndo = selectedStudents.length > 0 && selectedStudents.some(student => student.present);
+    confirmButton.style.display = canConfirm ? 'block' : 'none';
+    undoButton.style.display = canUndo ? 'block' : 'none';
+}
 
 // Function to handle the click event for the "Undo" button
 function handleUndoButtonClick() {
