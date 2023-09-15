@@ -100,6 +100,21 @@
           margin-right: 20px;
         }
 
+        .back-button {
+          font-family: 'Roboto', sans-serif;
+          font-size: 20px;
+          padding: 10px 20px;
+          border: none;
+          cursor: pointer;
+          border-radius: 5px;
+          background-color: white;
+          color: #8CB2D9; /* Blue text color */
+          position: absolute;
+          top: 50%; /* Center the button vertically */
+          left: 20px; /* Position the "Back" button on the left side */
+          transform: translateY(-50%); /* Adjust for vertical centering */
+        }
+
         .action-button {
           display: none; /* Initially hidden */
           font-family: 'Roboto', sans-serif;
@@ -114,11 +129,6 @@
           position: absolute; /* Add absolute positioning */
           top: 50%; /* Center the buttons vertically */
           transform: translateY(-50%); /* Adjust for vertical centering */
-        }
-
-        /* Position the buttons within the header */
-        .back {
-          left: 20px; /* Position "Back" button on the left side */
         }
         
         .confirm {
@@ -135,7 +145,7 @@
     <header>
       <h1>Holy Family Check-In</h1>
       <div class="button-container">
-        <button id="back-button" class="action-button back">Back</button>
+        <button id="back-button" class="back-button">Back</button>
         <button id="confirm-button" class="action-button confirm">Confirm</button>
         <button id="undo-button" class="action-button undo">Undo</button>
       </div>
