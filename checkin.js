@@ -133,8 +133,9 @@ function handleStudentButtonClick(studentData, studentButton) {
         if (index !== -1) {
             selectedStudents.splice(index, 1);
         }
-        // Change the button color back to blue
-        studentButton.style.backgroundColor = '#8CB2D9';
+        // Change the button color back to green
+        studentButton.classList.remove('white');
+        studentButton.classList.add('green');
     } else if (!isPresent && isSelected) {
         // Student is not marked present but selected, deselect it
         const index = selectedStudents.indexOf(studentData);
@@ -142,17 +143,20 @@ function handleStudentButtonClick(studentData, studentButton) {
             selectedStudents.splice(index, 1);
         }
         // Change the button color back to blue
-        studentButton.style.backgroundColor = '#8CB2D9';
+        studentButton.classList.remove('white');
+        studentButton.classList.add('blue');
     } else if (isPresent && !isSelected) {
         // Student is already marked present but not selected, select it
         selectedStudents.push(studentData);
         // Change the button color to white to indicate selection
-        studentButton.style.backgroundColor = 'white';
+        studentButton.classList.remove('blue');
+        studentButton.classList.add('white');
     } else {
         // Student is not marked present and not selected, select it
         selectedStudents.push(studentData);
         // Change the button color to white to indicate selection
-        studentButton.style.backgroundColor = 'white';
+        studentButton.classList.remove('blue');
+        studentButton.classList.add('white');
     }
 
     // Show the "Confirm" or "Undo" button based on the selection
@@ -163,6 +167,7 @@ function handleStudentButtonClick(studentData, studentButton) {
     confirmButton.style.display = canConfirm ? 'block' : 'none';
     undoButton.style.display = canUndo ? 'block' : 'none';
 }
+
 
 
 // Function to handle the click event for the "Undo" button
