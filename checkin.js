@@ -112,6 +112,7 @@ function createStudentButton(studentData) {
   return studentButton;
 }
 
+
 function handleStudentButtonClick(studentData, studentButton) {
     const isPresent = studentData.present;
     const isSelected = selectedStudents.includes(studentData);
@@ -132,34 +133,30 @@ function handleStudentButtonClick(studentData, studentButton) {
         if (index !== -1) {
             selectedStudents.splice(index, 1);
         }
-        // Remove the class for white with blue text
-        studentButton.classList.remove('selected-white-blue');
-        // Add the class for white with green text
-        studentButton.classList.add('selected-white-green');
+        // Revert to the original color (blue or green) with white text
+        if (isPresent) {
+            studentButton.classList.remove('selected-white');
+            studentButton.classList.add(isCurrentlySelectingBlue ? 'selected-blue' : 'selected-green');
+        }
     } else if (!isPresent && isSelected) {
         // Student is not marked present but selected, deselect it
         const index = selectedStudents.indexOf(studentData);
         if (index !== -1) {
             selectedStudents.splice(index, 1);
         }
-        // Remove the class for white with blue text
-        studentButton.classList.remove('selected-white-blue');
-        // Add the class for white with green text
-        studentButton.classList.add('selected-white-green');
+        // Revert to the original color (blue or green) with white text
+        studentButton.classList.remove('selected-white');
+        studentButton.classList.add(isCurrentlySelectingBlue ? 'selected-blue' : 'selected-green');
     } else if (isPresent && !isSelected) {
         // Student is already marked present but not selected, select it
         selectedStudents.push(studentData);
-        // Add the class for white with blue text
-        studentButton.classList.add('selected-white-blue');
-        // Remove the class for white with green text
-        studentButton.classList.remove('selected-white-green');
+        // Change the button color to white to indicate selection
+        studentButton.classList.add('selected-white');
     } else {
         // Student is not marked present and not selected, select it
         selectedStudents.push(studentData);
-        // Add the class for white with blue text
-        studentButton.classList.add('selected-white-blue');
-        // Remove the class for white with green text
-        studentButton.classList.remove('selected-white-green');
+        // Change the button color to white to indicate selection
+        studentButton.classList.add('selected-white');
     }
 
     // Show the "Confirm" or "Undo" button based on the selection
@@ -170,6 +167,7 @@ function handleStudentButtonClick(studentData, studentButton) {
     confirmButton.style.display = canConfirm ? 'block' : 'none';
     undoButton.style.display = canUndo ? 'block' : 'none';
 }
+
 
 
 // Function to handle the click event for the "Undo" button
