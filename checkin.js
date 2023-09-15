@@ -283,6 +283,3 @@ populateStudentsInGroup('8D');
 populateStudentsInGroup('8E');
 populateStudentsInGroup('8F');
 populateStudentsInGroup('8G');
-
-const container = document.querySelector('.container');
-container.style.display = 'block';
