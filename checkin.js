@@ -74,6 +74,29 @@ function populateStudentsInGroup(group) {
                                         });
                                     }
                                 });
+                            } else {
+                                // "students" subcollection doesn't exist, create it and copy the students
+                                const studentsCollectionRef = db.collection('students');
+
+                                studentsCollectionRef
+                                    .get()
+                                    .then((studentsSnapshot) => {
+                                        if (!studentsSnapshot.empty) {
+                                            // Iterate through students and add them to the "students" subcollection
+                                            studentsSnapshot.forEach((studentDoc) => {
+                                                const studentData = studentDoc.data();
+                                                studentsSubcollectionRef.add(studentData); // Add student to subcollection
+                                            });
+
+                                            // Refresh the page after copying students
+                                            location.reload();
+                                        } else {
+                                            console.log("No students found in the 'students' collection.");
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.error('Error fetching students:', error);
+                                    });
                             }
                         })
                         .catch((error) => {
@@ -86,6 +109,7 @@ function populateStudentsInGroup(group) {
             });
     }
 }
+
 
 // Array to store selected students
 const selectedStudents = [];
